@@ -1,0 +1,892 @@
+{
+  "customerId": "87edc65287244c732cf26d43e590d8e1",
+  "flowStatus": "enabled",
+  "currentVersion": 0,
+  "publishedVersion": null,
+  "name": "LexisNexis - ThreatMetrix",
+  "description": "Generate a device profile and send it to ThreatMetrix, then use the resulting session ID to get a risk assessment.",
+  "createdDate": 1649716747404,
+  "updatedDate": 1649716747410,
+  "flowId": "d22aee421f77d2d9f4c416d95d95a47c",
+  "companyId": "YQ3Us00m3Dw5XipROon1SVjiWfiGLNf8",
+  "versionId": 0,
+  "graphData": {
+    "elements": {
+      "nodes": [
+        {
+          "data": {
+            "id": "ymoewikrjn",
+            "nodeType": "CONNECTION",
+            "connectionId": "ae2ecc40e34f851d5c3342014053793a",
+            "connectorId": "lexisNexisConnector",
+            "name": "Lexis Nexis",
+            "label": "My LexisNexis",
+            "status": "configured",
+            "capabilityName": "initialize",
+            "type": "action",
+            "properties": {
+              "initialize_localizedErrors": {
+                "properties": {
+                  "en": {
+                    "value": [
+                      {
+                        "key": "initializeError",
+                        "value": "[\n  {\n    \"children\": [\n      {\n        \"text\": \"ThreatMetrix Initialize Script Error\"\n      }\n    ]\n  }\n]"
+                      },
+                      {
+                        "key": "initializeCompleteError",
+                        "value": "ThreatMetrix Initialize Script Complete Error"
+                      }
+                    ]
+                  }
+                }
+              },
+              "nodeTitle": {
+                "value": "LexisNexis"
+              }
+            }
+          },
+          "position": {
+            "x": 300,
+            "y": 300
+          },
+          "group": "nodes",
+          "removed": false,
+          "selected": false,
+          "selectable": true,
+          "locked": false,
+          "grabbable": true,
+          "pannable": false,
+          "classes": ""
+        },
+        {
+          "data": {
+            "id": "cvl8rnl5nk",
+            "nodeType": "EVAL",
+            "label": "Evaluator"
+          },
+          "position": {
+            "x": 420,
+            "y": 300
+          },
+          "group": "nodes",
+          "removed": false,
+          "selected": false,
+          "selectable": true,
+          "locked": false,
+          "grabbable": true,
+          "pannable": false,
+          "classes": ""
+        },
+        {
+          "data": {
+            "id": "7ayhi6que9",
+            "nodeType": "CONNECTION",
+            "connectionId": "ae2ecc40e34f851d5c3342014053793a",
+            "connectorId": "lexisNexisConnector",
+            "name": "Lexis Nexis",
+            "label": "My LexisNexis",
+            "status": "configured",
+            "idUnique": "2xlyue45we",
+            "capabilityName": "threatMetrix",
+            "type": "trigger",
+            "properties": {
+              "sessionId": {
+                "value": "[\n  {\n    \"children\": [\n      {\n        \"text\": \"\"\n      },\n      {\n        \"text\": \"\"\n      },\n      {\n        \"type\": \"link\",\n        \"src\": \"lexis-nexis.svg\",\n        \"url\": \"sessionId\",\n        \"data\": \"{{local.ymoewikrjn.payload.output.sessionId}}\",\n        \"tooltip\": \"{{local.ymoewikrjn.payload.output.sessionId}}\",\n        \"children\": [\n          {\n            \"text\": \"sessionId\"\n          }\n        ]\n      },\n      {\n        \"text\": \"\"\n      }\n    ]\n  }\n]"
+              },
+              "event_type": {
+                "value": "LOGIN"
+              },
+              "nodeTitle": {
+                "value": "LexisNexis"
+              }
+            }
+          },
+          "position": {
+            "x": 570,
+            "y": 300
+          },
+          "group": "nodes",
+          "removed": false,
+          "selected": false,
+          "selectable": true,
+          "locked": false,
+          "grabbable": true,
+          "pannable": false,
+          "classes": ""
+        },
+        {
+          "data": {
+            "id": "i9un95oxed",
+            "nodeType": "EVAL",
+            "label": "Evaluator"
+          },
+          "position": {
+            "x": 690,
+            "y": 300
+          },
+          "group": "nodes",
+          "removed": false,
+          "selected": false,
+          "selectable": true,
+          "locked": false,
+          "grabbable": true,
+          "pannable": false,
+          "classes": ""
+        },
+        {
+          "data": {
+            "id": "e26iqbpczg",
+            "nodeType": "CONNECTION",
+            "connectionId": "beIZMmbw7yb5z70GPOjdra1wrzI9GYHW",
+            "connectorId": "functionsConnector",
+            "name": "functionsConnector",
+            "label": "Functions",
+            "status": "configured",
+            "capabilityName": "AEqualsMultipleB",
+            "type": "trigger",
+            "properties": {
+              "leftValueA": {
+                "value": "[\n  {\n    \"children\": [\n      {\n        \"text\": \"\"\n      },\n      {\n        \"text\": \"\"\n      },\n      {\n        \"type\": \"link\",\n        \"src\": \"lexis-nexis.svg\",\n        \"url\": \"review_status\",\n        \"data\": \"{{local.7ayhi6que9.payload.output.rawResponse.policy_details_api.policy_detail_api[0].customer.review_status}}\",\n        \"tooltip\": \"{{local.7ayhi6que9.payload.output.rawResponse.policy_details_api.policy_detail_api[0].customer.review_status}}\",\n        \"children\": [\n          {\n            \"text\": \"review_status\"\n          }\n        ]\n      },\n      {\n        \"text\": \"\"\n      }\n    ]\n  }\n]"
+              },
+              "rightValueMultiple": {
+                "value": [
+                  {
+                    "value": "[\n  {\n    \"children\": [\n      {\n        \"text\": \"pass\"\n      }\n    ]\n  }\n]",
+                    "id": "uunljag7l9"
+                  },
+                  {
+                    "value": "[\n  {\n    \"children\": [\n      {\n        \"text\": \"review\"\n      }\n    ]\n  }\n]",
+                    "id": "4rrrdqnhu4"
+                  },
+                  {
+                    "value": "[\n  {\n    \"children\": [\n      {\n        \"text\": \"challenge\"\n      }\n    ]\n  }\n]",
+                    "id": "0lbes1wrkx"
+                  },
+                  {
+                    "value": "[\n  {\n    \"children\": [\n      {\n        \"text\": \"reject\"\n      }\n    ]\n  }\n]",
+                    "id": "do2rafp3km"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 840,
+            "y": 300
+          },
+          "group": "nodes",
+          "removed": false,
+          "selected": false,
+          "selectable": true,
+          "locked": false,
+          "grabbable": true,
+          "pannable": false,
+          "classes": ""
+        },
+        {
+          "data": {
+            "id": "iotcsfwoq6",
+            "nodeType": "EVAL",
+            "label": "Evaluator"
+          },
+          "position": {
+            "x": 1020,
+            "y": 300
+          },
+          "group": "nodes",
+          "removed": false,
+          "selected": false,
+          "selectable": true,
+          "locked": false,
+          "grabbable": true,
+          "pannable": false,
+          "classes": ""
+        },
+        {
+          "data": {
+            "id": "i1vay9dn3l",
+            "nodeType": "CONNECTION",
+            "connectionId": "Zk0YP4jRuujVALe2srTAIO4Pf9gRviXX",
+            "connectorId": "httpConnector",
+            "name": "httpConnector",
+            "label": "My HTTP",
+            "status": "configured",
+            "capabilityName": "customHtmlMessage",
+            "type": "trigger",
+            "properties": {
+              "nodeTitle": {
+                "value": "Result: Pass"
+              },
+              "messageTitle": {
+                "value": "[\n  {\n    \"children\": [\n      {\n        \"text\": \"Result: Pass\"\n      }\n    ]\n  }\n]"
+              },
+              "message": {
+                "value": "[\n  {\n    \"children\": [\n      {\n        \"text\": \"The review status was \\\"Pass\\\".\"\n      }\n    ]\n  }\n]"
+              }
+            }
+          },
+          "position": {
+            "x": 1170,
+            "y": 300
+          },
+          "group": "nodes",
+          "removed": false,
+          "selected": false,
+          "selectable": true,
+          "locked": false,
+          "grabbable": true,
+          "pannable": false,
+          "classes": ""
+        },
+        {
+          "data": {
+            "id": "mbgj2431x5",
+            "nodeType": "CONNECTION",
+            "connectionId": "Zk0YP4jRuujVALe2srTAIO4Pf9gRviXX",
+            "connectorId": "httpConnector",
+            "name": "httpConnector",
+            "label": "My HTTP",
+            "status": "configured",
+            "capabilityName": "customHtmlMessage",
+            "type": "trigger",
+            "properties": {
+              "nodeTitle": {
+                "value": "Result: Review"
+              },
+              "messageTitle": {
+                "value": "[\n  {\n    \"children\": [\n      {\n        \"text\": \"Result: Review\"\n      }\n    ]\n  }\n]"
+              },
+              "message": {
+                "value": "[\n  {\n    \"children\": [\n      {\n        \"text\": \"The review status was \\\"Review\\\".\"\n      }\n    ]\n  }\n]"
+              }
+            },
+            "idUnique": "ebkmuil7xg"
+          },
+          "position": {
+            "x": 1170,
+            "y": 420
+          },
+          "group": "nodes",
+          "removed": false,
+          "selected": false,
+          "selectable": true,
+          "locked": false,
+          "grabbable": true,
+          "pannable": false,
+          "classes": ""
+        },
+        {
+          "data": {
+            "id": "3f6j5ora2w",
+            "nodeType": "EVAL"
+          },
+          "position": {
+            "x": 1020,
+            "y": 420
+          },
+          "group": "nodes",
+          "removed": false,
+          "selected": false,
+          "selectable": true,
+          "locked": false,
+          "grabbable": true,
+          "pannable": false,
+          "classes": ""
+        },
+        {
+          "data": {
+            "id": "o4iw71mcr5",
+            "nodeType": "CONNECTION",
+            "connectionId": "Zk0YP4jRuujVALe2srTAIO4Pf9gRviXX",
+            "connectorId": "httpConnector",
+            "name": "httpConnector",
+            "label": "My HTTP",
+            "status": "configured",
+            "capabilityName": "customHtmlMessage",
+            "type": "trigger",
+            "properties": {
+              "nodeTitle": {
+                "value": "Result: Challenge"
+              },
+              "messageTitle": {
+                "value": "[\n  {\n    \"children\": [\n      {\n        \"text\": \"Result: Challenge\"\n      }\n    ]\n  }\n]"
+              },
+              "message": {
+                "value": "[\n  {\n    \"children\": [\n      {\n        \"text\": \"The review status was \\\"Challenge\\\".\"\n      }\n    ]\n  }\n]"
+              }
+            },
+            "idUnique": "ue75k2qcn8"
+          },
+          "position": {
+            "x": 1170,
+            "y": 540
+          },
+          "group": "nodes",
+          "removed": false,
+          "selected": false,
+          "selectable": true,
+          "locked": false,
+          "grabbable": true,
+          "pannable": false,
+          "classes": ""
+        },
+        {
+          "data": {
+            "id": "ycma0u1jiv",
+            "nodeType": "EVAL"
+          },
+          "position": {
+            "x": 1020,
+            "y": 540
+          },
+          "group": "nodes",
+          "removed": false,
+          "selected": false,
+          "selectable": true,
+          "locked": false,
+          "grabbable": true,
+          "pannable": false,
+          "classes": ""
+        },
+        {
+          "data": {
+            "id": "btuqbbsbhj",
+            "nodeType": "CONNECTION",
+            "connectionId": "Zk0YP4jRuujVALe2srTAIO4Pf9gRviXX",
+            "connectorId": "httpConnector",
+            "name": "httpConnector",
+            "label": "My HTTP",
+            "status": "configured",
+            "capabilityName": "customHtmlMessage",
+            "type": "trigger",
+            "properties": {
+              "nodeTitle": {
+                "value": "Result: Reject"
+              },
+              "messageTitle": {
+                "value": "[\n  {\n    \"children\": [\n      {\n        \"text\": \"Result: Reject\"\n      }\n    ]\n  }\n]"
+              },
+              "message": {
+                "value": "[\n  {\n    \"children\": [\n      {\n        \"text\": \"The review status was \\\"\"\n      },\n      {\n        \"text\": \"Reject\"\n      },\n      {\n        \"text\": \"\\\".\"\n      }\n    ]\n  }\n]"
+              }
+            },
+            "idUnique": "pt5644hww6"
+          },
+          "position": {
+            "x": 1170,
+            "y": 660
+          },
+          "group": "nodes",
+          "removed": false,
+          "selected": false,
+          "selectable": true,
+          "locked": false,
+          "grabbable": true,
+          "pannable": false,
+          "classes": ""
+        },
+        {
+          "data": {
+            "id": "47rvpf8u55",
+            "nodeType": "EVAL"
+          },
+          "position": {
+            "x": 1020,
+            "y": 660
+          },
+          "group": "nodes",
+          "removed": false,
+          "selected": false,
+          "selectable": true,
+          "locked": false,
+          "grabbable": true,
+          "pannable": false,
+          "classes": ""
+        },
+        {
+          "data": {
+            "id": "l17tmkn5kp",
+            "nodeType": "CONNECTION",
+            "connectionId": "Zk0YP4jRuujVALe2srTAIO4Pf9gRviXX",
+            "connectorId": "httpConnector",
+            "name": "httpConnector",
+            "label": "My HTTP",
+            "status": "configured",
+            "capabilityName": "customHtmlMessage",
+            "type": "trigger",
+            "properties": {
+              "nodeTitle": {
+                "value": "Review status didn't match"
+              },
+              "messageTitle": {
+                "value": "[\n  {\n    \"children\": [\n      {\n        \"text\": \"Review status didn't match\"\n      }\n    ]\n  }\n]"
+              },
+              "message": {
+                "value": "[\n  {\n    \"children\": [\n      {\n        \"text\": \"The review status didn't match pass, review, challenge, or reject.\"\n      }\n    ]\n  }\n]"
+              }
+            },
+            "idUnique": "ojtc1dc47f"
+          },
+          "position": {
+            "x": 1170,
+            "y": 780
+          },
+          "group": "nodes",
+          "removed": false,
+          "selected": false,
+          "selectable": true,
+          "locked": false,
+          "grabbable": true,
+          "pannable": false,
+          "classes": ""
+        },
+        {
+          "data": {
+            "id": "6jm6vd6wdu",
+            "nodeType": "EVAL"
+          },
+          "position": {
+            "x": 1020,
+            "y": 780
+          },
+          "group": "nodes",
+          "removed": false,
+          "selected": false,
+          "selectable": true,
+          "locked": false,
+          "grabbable": true,
+          "pannable": false,
+          "classes": ""
+        },
+        {
+          "data": {
+            "id": "9ddix82qoe",
+            "nodeType": "ANNOTATION",
+            "name": "Annotation",
+            "connectionId": "921bfae85c38ed45045e07be703d86b8",
+            "connectorId": "annotationConnector",
+            "capabilityName": "updateAnnotationProperties",
+            "type": "action",
+            "properties": {
+              "backgroundColor": {
+                "value": "#B5DFFF"
+              },
+              "annotation": {
+                "value": "Create device profile"
+              }
+            },
+            "status": "configured"
+          },
+          "position": {
+            "x": 210,
+            "y": 210
+          },
+          "group": "nodes",
+          "removed": false,
+          "selected": false,
+          "selectable": true,
+          "locked": false,
+          "grabbable": true,
+          "pannable": false,
+          "classes": ""
+        },
+        {
+          "data": {
+            "id": "s8vujtbvnk",
+            "nodeType": "ANNOTATION",
+            "name": "Annotation",
+            "connectionId": "921bfae85c38ed45045e07be703d86b8",
+            "connectorId": "annotationConnector",
+            "capabilityName": "updateAnnotationProperties",
+            "type": "action",
+            "properties": {
+              "backgroundColor": {
+                "value": "#B5DFFF"
+              },
+              "annotation": {
+                "value": "Get risk assessment"
+              }
+            },
+            "status": "configured"
+          },
+          "position": {
+            "x": 480,
+            "y": 210
+          },
+          "group": "nodes",
+          "removed": false,
+          "selected": false,
+          "selectable": true,
+          "locked": false,
+          "grabbable": true,
+          "pannable": false,
+          "classes": ""
+        },
+        {
+          "data": {
+            "id": "ijaj43bkfi",
+            "nodeType": "ANNOTATION",
+            "name": "Annotation",
+            "connectionId": "921bfae85c38ed45045e07be703d86b8",
+            "connectorId": "annotationConnector",
+            "capabilityName": "updateAnnotationProperties",
+            "type": "action",
+            "properties": {
+              "backgroundColor": {
+                "value": "#B5DFFF"
+              },
+              "annotation": {
+                "value": "Branch based on review status"
+              }
+            },
+            "status": "configured"
+          },
+          "position": {
+            "x": 720,
+            "y": 210
+          },
+          "group": "nodes",
+          "removed": false,
+          "selected": false,
+          "selectable": true,
+          "locked": false,
+          "grabbable": true,
+          "pannable": false,
+          "classes": ""
+        },
+        {
+          "data": {
+            "id": "cr8z2lodsl",
+            "nodeType": "ANNOTATION",
+            "name": "Annotation",
+            "connectionId": "921bfae85c38ed45045e07be703d86b8",
+            "connectorId": "annotationConnector",
+            "capabilityName": "updateAnnotationProperties",
+            "type": "action",
+            "properties": {
+              "backgroundColor": {
+                "value": "#B5DFFF"
+              },
+              "annotation": {
+                "value": "Continue the flow"
+              }
+            },
+            "status": "configured"
+          },
+          "position": {
+            "x": 1080,
+            "y": 210
+          },
+          "group": "nodes",
+          "removed": false,
+          "selected": false,
+          "selectable": true,
+          "locked": false,
+          "grabbable": true,
+          "pannable": false,
+          "classes": ""
+        }
+      ],
+      "edges": [
+        {
+          "data": {
+            "id": "jm44j33t2k",
+            "source": "7ayhi6que9",
+            "target": "i9un95oxed"
+          },
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "group": "edges",
+          "removed": false,
+          "selected": false,
+          "selectable": true,
+          "locked": false,
+          "grabbable": true,
+          "pannable": true,
+          "classes": ""
+        },
+        {
+          "data": {
+            "id": "2e9se84w87",
+            "source": "3f6j5ora2w",
+            "target": "mbgj2431x5"
+          },
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "group": "edges",
+          "removed": false,
+          "selected": false,
+          "selectable": true,
+          "locked": false,
+          "grabbable": true,
+          "pannable": true,
+          "classes": ""
+        },
+        {
+          "data": {
+            "id": "q8s9araxtn",
+            "source": "ycma0u1jiv",
+            "target": "o4iw71mcr5"
+          },
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "group": "edges",
+          "removed": false,
+          "selected": false,
+          "selectable": true,
+          "locked": false,
+          "grabbable": true,
+          "pannable": true,
+          "classes": ""
+        },
+        {
+          "data": {
+            "id": "j4xhvvi491",
+            "source": "47rvpf8u55",
+            "target": "btuqbbsbhj"
+          },
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "group": "edges",
+          "removed": false,
+          "selected": false,
+          "selectable": true,
+          "locked": false,
+          "grabbable": true,
+          "pannable": true,
+          "classes": ""
+        },
+        {
+          "data": {
+            "id": "k6zshzt6m0",
+            "source": "e26iqbpczg",
+            "target": "6jm6vd6wdu",
+            "multiValueSourceId": "-1"
+          },
+          "position": {
+            "x": 64,
+            "y": 212
+          },
+          "group": "edges",
+          "removed": false,
+          "selected": false,
+          "selectable": true,
+          "locked": false,
+          "grabbable": true,
+          "pannable": true,
+          "classes": ""
+        },
+        {
+          "data": {
+            "id": "vtp82fyrye",
+            "source": "e26iqbpczg",
+            "target": "47rvpf8u55",
+            "multiValueSourceId": "do2rafp3km"
+          },
+          "position": {
+            "x": 64,
+            "y": 172
+          },
+          "group": "edges",
+          "removed": false,
+          "selected": false,
+          "selectable": true,
+          "locked": false,
+          "grabbable": true,
+          "pannable": true,
+          "classes": ""
+        },
+        {
+          "data": {
+            "id": "88zgx4qzoi",
+            "source": "ymoewikrjn",
+            "target": "cvl8rnl5nk"
+          },
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "group": "edges",
+          "removed": false,
+          "selected": false,
+          "selectable": true,
+          "locked": false,
+          "grabbable": true,
+          "pannable": true,
+          "classes": ""
+        },
+        {
+          "data": {
+            "id": "3lb57yw68p",
+            "source": "cvl8rnl5nk",
+            "target": "7ayhi6que9"
+          },
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "group": "edges",
+          "removed": false,
+          "selected": false,
+          "selectable": true,
+          "locked": false,
+          "grabbable": true,
+          "pannable": true,
+          "classes": ""
+        },
+        {
+          "data": {
+            "id": "oepimh1vhp",
+            "source": "6jm6vd6wdu",
+            "target": "l17tmkn5kp"
+          },
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "group": "edges",
+          "removed": false,
+          "selected": false,
+          "selectable": true,
+          "locked": false,
+          "grabbable": true,
+          "pannable": true,
+          "classes": ""
+        },
+        {
+          "data": {
+            "id": "kti9p4gku2",
+            "source": "e26iqbpczg",
+            "target": "ycma0u1jiv",
+            "multiValueSourceId": "0lbes1wrkx"
+          },
+          "position": {
+            "x": 64,
+            "y": 132
+          },
+          "group": "edges",
+          "removed": false,
+          "selected": false,
+          "selectable": true,
+          "locked": false,
+          "grabbable": true,
+          "pannable": true,
+          "classes": ""
+        },
+        {
+          "data": {
+            "id": "z39hfhpxs3",
+            "source": "e26iqbpczg",
+            "target": "iotcsfwoq6",
+            "multiValueSourceId": "uunljag7l9"
+          },
+          "position": {
+            "x": 64,
+            "y": 52
+          },
+          "group": "edges",
+          "removed": false,
+          "selected": false,
+          "selectable": true,
+          "locked": false,
+          "grabbable": true,
+          "pannable": true,
+          "classes": ""
+        },
+        {
+          "data": {
+            "id": "1qo3wgd8p3",
+            "source": "iotcsfwoq6",
+            "target": "i1vay9dn3l"
+          },
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "group": "edges",
+          "removed": false,
+          "selected": false,
+          "selectable": true,
+          "locked": false,
+          "grabbable": true,
+          "pannable": true,
+          "classes": ""
+        },
+        {
+          "data": {
+            "id": "nic41epxvq",
+            "source": "e26iqbpczg",
+            "target": "3f6j5ora2w",
+            "multiValueSourceId": "4rrrdqnhu4"
+          },
+          "position": {
+            "x": 64,
+            "y": 92
+          },
+          "group": "edges",
+          "removed": false,
+          "selected": false,
+          "selectable": true,
+          "locked": false,
+          "grabbable": true,
+          "pannable": true,
+          "classes": ""
+        },
+        {
+          "data": {
+            "id": "kmgfo1r4yr",
+            "source": "i9un95oxed",
+            "target": "e26iqbpczg"
+          },
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "group": "edges",
+          "removed": false,
+          "selected": false,
+          "selectable": true,
+          "locked": false,
+          "grabbable": true,
+          "pannable": true,
+          "classes": ""
+        }
+      ]
+    },
+    "data": {},
+    "zoomingEnabled": true,
+    "userZoomingEnabled": true,
+    "zoom": 1,
+    "minZoom": 1e-50,
+    "maxZoom": 1e+50,
+    "panningEnabled": true,
+    "userPanningEnabled": true,
+    "pan": {
+      "x": 0,
+      "y": 0
+    },
+    "boxSelectionEnabled": true,
+    "renderer": {
+      "name": "null"
+    }
+  },
+  "inputSchema": null,
+  "settings": null,
+  "flowColor": "#e1827f",
+  "connectorIds": [
+    "lexisNexisConnector",
+    "functionsConnector",
+    "httpConnector",
+    "annotationConnector"
+  ],
+  "variables": []
+}
