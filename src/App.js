@@ -1,12 +1,18 @@
-import * as React from "react";
 import logo2 from "./img/favicon_2.ico";
+
+import * as React from "react";
+
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import prettyjson from "prettyjson";
+
+import hljs from "highlight.js/lib/core";
+import json from "highlight.js/lib/languages/json";
+
+hljs.registerLanguage("JSON", json);
 
 function App() {
   const [input, setInput] = React.useState("");
@@ -18,28 +24,116 @@ function App() {
     event.preventDefault();
     const inputJSON = event.target.value;
     setInput(inputJSON);
-    parse(inputJSON);
   };
 
   const parse = () => {
     if (!validateJSON(input)) {
       // show error message
+      console.log("Invalid JSON`");
       return;
     }
-    setOutput('{node: "flow connector"}');
+    const parsedJSON = JSON.parse(input);
+    setOutput(parsedJSON);
+    console.log(parsedJSON);
+  };
+
+  const jsonSyntaxHighlighting = (code) => {
+    const ignoreIllegals = true;
+    const highlightJSON = json(code, {
+      language: "json",
+      ignoreIllegals: ignoreIllegals,
+    });
+    return highlightJSON.value;
   };
 
   const validateJSON = (input) => {
     try {
-      const inputJSONObject = JSON.parse(input);
-      setJSONObject(inputJSONObject);
-      console.log(inputJSONObject);
+      JSON.parse(input);
     } catch (e) {
       setValidationError(e);
       console.log(e);
       return false;
     }
     return true;
+  };
+
+  const parsedOutput = () => {
+    if (output) {
+      
+      return (
+        <Grid container item xs={12} justifyContent="center" spacing={3}>
+          <Grid container item xs={12}>
+            <Grid item xs={12}>
+              <TextField
+                id="outlined-textfield-flow-name"
+                label="Flow-Name"
+                variant="outlined"
+                value={output.name}
+                fullWidth
+              />
+            </Grid>
+          </Grid>
+
+          <Grid container item xs={12}>
+            <Grid item xs={12}>
+              <TextField
+                id="outlined-textfield-description"
+                label="Flow-Description"
+                variant="outlined"
+                value={output.description}
+                fullWidth
+              />
+            </Grid>
+          </Grid>
+
+          <Grid container item xs={12}>
+            <Grid item>
+              <TextField
+                id="outlined-textfield-connectorIds"
+                label="Connector-IDs"
+                variant="outlined"
+                value={output.connectorIds.join(", ")}
+                fullWidth
+              />
+            </Grid>
+
+            <Grid item>
+              <TextField
+                id="outlined-textfield-flowid"
+                label="Flow-ID"
+                variant="outlined"
+                value={output.flowId}
+              />
+            </Grid>
+            <Grid item>
+              <TextField
+                id="outlined-textfield-customerid"
+                label="Customer-ID"
+                variant="outlined"
+                value={output.customerId}
+              />
+            </Grid>
+            <Grid item>
+              <TextField
+                id="outlined-textfield-currentVersion"
+                label="currentVersion"
+                variant="outlined"
+                value={output.currentVersion}
+              />
+            </Grid>
+            <Grid item>
+              <TextField
+                id="outlined-textfield-publishedVersion"
+                label="publishedVersion"
+                variant="outlined"
+                value={output.publishedVersion}
+              />
+            </Grid>
+          </Grid>
+        </Grid>
+      );
+    }
+    return <></>;
   };
 
   return (
@@ -68,7 +162,7 @@ function App() {
             variant="outlined"
             multiline
             fullWidth
-            rowsMax={4}
+            maxRows={8}
             value={input}
             onChange={handleChange}
           />
@@ -78,46 +172,7 @@ function App() {
             Parse!!!
           </Button>
         </Grid>
-        if(output)
-        {
-          <Grid container item xs={12} justifyContent="center">
-            <Grid item xs={6}>
-              <TextField
-                id="outlined-textfield-flowid"
-                label="flowid"
-                variant="outlined"
-                value={output.flowid}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                id="outlined-textfield-customerid"
-                label="customerid"
-                variant="outlined"
-                fullWidth
-                value={output.customerid}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                id="outlined-textfield-currentVersion"
-                label="currentVersion"
-                variant="outlined"
-                fullWidth
-                value={output.currentVersion}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                id="outlined-textfield-publishedVersion"
-                label="publishedVersion"
-                variant="outlined"
-                fullWidth
-                value={output.publishedVersion}
-              />
-            </Grid>
-          </Grid>
-        }
+        {parsedOutput()}
       </Grid>
     </Container>
   );
