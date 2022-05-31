@@ -50,7 +50,7 @@ function App() {
     const parsedEdges = gatherEdges(parsedJSON);
     setNodes(parsedEdges);
 
-    calcNumOfEachTypeOfNode(parsedNodes, parsedEdges);
+    getNodeInfo(parsedNodes, parsedEdges);
   };
 
   const jsonSyntaxHighlighting = (code) => {
@@ -88,7 +88,7 @@ function App() {
     return parsedNodes;
   };
 
-  const calcNumOfEachTypeOfNode = (nodes, edges) => {
+  const getNodeInfo = (nodes, edges) => {
     const nodeTypeCount = {};
     const nodeStatusCount = {};
 
@@ -111,11 +111,6 @@ function App() {
       }
       setNodeStatusCount(nodeStatusCount);
     });
-
-    console.log("nodeTypeCount");
-    console.log(nodeTypeCount);
-    console.log("nodeStatusCount");
-    console.log(nodeStatusCount);
   };
 
   const gatherEdges = (parsedJSON) => {
@@ -160,11 +155,6 @@ function App() {
   };
 
   const nodeTypesElement = () => {
-    console.log("nodeTypes");
-    console.log(nodeTypes);
-    console.log("Object.entries(nodeTypes).length");
-    console.log(Object.entries(nodeTypes).length);
-
     if (nodeTypes && Object.entries(nodeTypes).length > 0) {
       const types = [];
 
