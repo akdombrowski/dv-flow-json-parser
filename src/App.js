@@ -13,6 +13,7 @@ import hljs from "highlight.js/lib/core";
 import json from "highlight.js/lib/languages/json";
 
 import * as _ from "lodash";
+import { RestaurantMenuSharp } from "@mui/icons-material";
 
 hljs.registerLanguage("JSON", json);
 
@@ -25,6 +26,9 @@ function App() {
   const [numOfNodes, setNumOfNodes] = React.useState("");
   const [edges, setEdges] = React.useState("");
   const [numOfEdges, setNumOfEdges] = React.useState("");
+  const [nodeTypesCount, setNodeTypesCount] = React.useState(0);
+  const [nodeStatusCount, setNodeStatusCount] = React.useState({});
+  const [nodeTypes, setNodeTypes] = React.useState({});
 
   const handleChange = (event) => {
     event.preventDefault();
@@ -85,23 +89,33 @@ function App() {
   };
 
   const calcNumOfEachTypeOfNode = (nodes, edges) => {
-    const nodeTypesAndCounts = {};
+    const nodeTypeCount = {};
+    const nodeStatusCount = {};
 
     nodes.forEach((node) => {
+      // Count number of node types
       const nodeType = node.data.nodeType;
-
-      if (!nodeTypesAndCounts[nodeType]) {
-        nodeTypesAndCounts[nodeType] = 1;
+      if (!nodeTypeCount[nodeType]) {
+        nodeTypeCount[nodeType] = 1;
       } else {
-        nodeTypesAndCounts[nodeType] = ++nodeTypesAndCounts[nodeType];
+        nodeTypeCount[nodeType] = ++nodeTypeCount[nodeType];
       }
+      setNodeTypes(nodeTypeCount);
 
-      console.log(nodeType);
-      console.log(nodeTypesAndCounts[nodeType]);
+      // Count number of configured nodes
+      const status = node.data.status;
+      if (!nodeStatusCount[status]) {
+        nodeStatusCount[status] = 1;
+      } else {
+        nodeStatusCount[status] = ++nodeStatusCount[status];
+      }
+      setNodeStatusCount(nodeStatusCount);
     });
 
-    console.log("nodeTypesAndCounts")
-    console.log(nodeTypesAndCounts)
+    console.log("nodeTypeCount");
+    console.log(nodeTypeCount);
+    console.log("nodeStatusCount");
+    console.log(nodeStatusCount);
   };
 
   const gatherEdges = (parsedJSON) => {
@@ -112,6 +126,74 @@ function App() {
     const numberOfEdges = parsedEdges.length;
     setNumOfEdges(numberOfEdges);
     return parsedEdges;
+  };
+
+  const nodeStatusesElement = () => {
+    if (nodeStatusCount && Object.entries(nodeStatusCount).length > 0) {
+      const statuses = [];
+
+      for (const [key, value] of Object.entries(nodeStatusCount)) {
+        statuses.push(
+          <Grid
+            item
+            id={"grid-status-" + _.lowerCase(key)}
+            key={_.lowerCase(key)}
+          >
+            <TextField
+              id={"outlined-textfield-node-statuses" + +_.lowerCase(key)}
+              label={"Node-Status-" + _.capitalize(key)}
+              variant="outlined"
+              value={value}
+              fullWidth
+            />
+          </Grid>
+        );
+      }
+
+      return (
+        <Grid container item xs={12} spacing={3}>
+          {statuses}
+        </Grid>
+      );
+    }
+    return <></>;
+  };
+
+  const nodeTypesElement = () => {
+    console.log("nodeTypes");
+    console.log(nodeTypes);
+    console.log("Object.entries(nodeTypes).length");
+    console.log(Object.entries(nodeTypes).length);
+
+    if (nodeTypes && Object.entries(nodeTypes).length > 0) {
+      const types = [];
+
+      for (const [key, value] of Object.entries(nodeTypes)) {
+        types.push(
+          <Grid
+            item
+            id={"grid-type-" + _.lowerCase(key)}
+            key={_.lowerCase(key)}
+          >
+            <TextField
+              id={"outlined-textfield-node-types" + _.lowerCase(key)}
+              label={"Node-Types-" + _.capitalize(key)}
+              variant="outlined"
+              value={value}
+              fullWidth
+            />
+          </Grid>
+        );
+      }
+
+      return (
+        <Grid container item xs={12} spacing={3}>
+          {types}
+        </Grid>
+      );
+    }
+
+    return <></>;
   };
 
   const parsedOutput = () => {
@@ -161,53 +243,49 @@ function App() {
                 label="Flow-ID"
                 variant="outlined"
                 value={output.flowId}
+                fullWidth
               />
             </Grid>
-
             <Grid item xs={3}>
               <TextField
                 id="outlined-textfield-customerid"
                 label="Customer-ID"
                 variant="outlined"
                 value={output.customerId}
+                fullWidth
               />
             </Grid>
-
             <Grid item xs={3}>
               <TextField
                 id="outlined-textfield-currentVersion"
                 label="Current-Version"
                 variant="outlined"
                 value={output.currentVersion}
+                fullWidth
               />
             </Grid>
-
             <Grid item xs={3}>
               <TextField
                 id="outlined-textfield-publishedVersion"
                 label="Published-Version"
                 variant="outlined"
                 value={output.publishedVersion || "null"}
+                fullWidth
               />
             </Grid>
-
             <Grid item xs={3}>
               <TextField
                 id="outlined-textfield-publishedVersion"
                 label="Input-Schema"
                 variant="outlined"
                 value={output.inputSchema || "null"}
+                fullWidth
               />
             </Grid>
 
-            <Grid item xs={3}>
-              <TextField
-                id="outlined-textfield-publishedVersion"
-                label="publishedVersion"
-                variant="outlined"
-                value={output.graphData.elements}
-              />
-            </Grid>
+            {nodeTypesElement()}
+
+            {nodeStatusesElement()}
           </Grid>
         </Grid>
       );
