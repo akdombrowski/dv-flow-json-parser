@@ -28,7 +28,9 @@ function App() {
   const [numOfEdges, setNumOfEdges] = React.useState("");
   const [nodeTypesCount, setNodeTypesCount] = React.useState(0);
   const [nodeStatusCount, setNodeStatusCount] = React.useState({});
+  const [nodeCapabilities, setNodeCapabilities] = React.useState({});
   const [nodeTypes, setNodeTypes] = React.useState({});
+  const [types, setTypes] = React.useState({});
 
   const handleChange = (event) => {
     event.preventDefault();
@@ -91,6 +93,7 @@ function App() {
   const getNodeInfo = (nodes, edges) => {
     const nodeTypeCount = {};
     const nodeStatusCount = {};
+    const nodeCapability = {};
 
     nodes.forEach((node) => {
       // Count number of node types
@@ -99,6 +102,9 @@ function App() {
         nodeTypeCount[nodeType] = 1;
       } else {
         nodeTypeCount[nodeType] = ++nodeTypeCount[nodeType];
+      }
+      if (nodeType === "CONNECTION") {
+
       }
       setNodeTypes(nodeTypeCount);
 
@@ -110,6 +116,15 @@ function App() {
         nodeStatusCount[status] = ++nodeStatusCount[status];
       }
       setNodeStatusCount(nodeStatusCount);
+
+      // Count number of capabilities
+      const cap = node.data.capability;
+      if (!nodeCapability[cap]) {
+        nodeCapability[cap] = 1;
+      } else {
+        nodeCapability[cap] = ++nodeCapability[cap];
+      }
+      setNodeCapabilities(nodeCapability);
     });
   };
 
@@ -135,7 +150,7 @@ function App() {
             key={_.lowerCase(key)}
           >
             <TextField
-              id={"outlined-textfield-node-statuses" + +_.lowerCase(key)}
+              id={"outlined-textfield-node-statuses-" + +_.lowerCase(key)}
               label={"Node-Status-" + _.capitalize(key)}
               variant="outlined"
               value={value}
@@ -166,7 +181,7 @@ function App() {
             key={_.lowerCase(key)}
           >
             <TextField
-              id={"outlined-textfield-node-types" + _.lowerCase(key)}
+              id={"outlined-textfield-node-types-" + _.lowerCase(key)}
               label={"Node-Types-" + _.capitalize(key)}
               variant="outlined"
               value={value}
@@ -179,6 +194,38 @@ function App() {
       return (
         <Grid container item xs={12} spacing={3}>
           {types}
+        </Grid>
+      );
+    }
+
+    return <></>;
+  };
+
+  const nodeCapabilitiesElement = () => {
+    if (nodeTypes && Object.entries(nodeCapabilities).length > 0) {
+      const caps = [];
+
+      for (const [key, value] of Object.entries(nodeCapabilities)) {
+        caps.push(
+          <Grid
+            item
+            id={"grid-type-" + _.lowerCase(key)}
+            key={_.lowerCase(key)}
+          >
+            <TextField
+              id={"outlined-textfield-node-capabilities-" + _.lowerCase(key)}
+              label={"Node-Types-" + _.capitalize(key)}
+              variant="outlined"
+              value={value}
+              fullWidth
+            />
+          </Grid>
+        );
+      }
+
+      return (
+        <Grid container item xs={12} spacing={3}>
+          {caps}
         </Grid>
       );
     }
@@ -273,6 +320,8 @@ function App() {
               />
             </Grid>
 
+            {nodeCapabilitiesElement()}
+
             {nodeTypesElement()}
 
             {nodeStatusesElement()}
@@ -298,6 +347,7 @@ function App() {
           <Typography variant="h6" component="div" gutterBottom>
             PingOne DaVinci Flows
           </Typography>
+          <br/>
           <Typography variant="subtitle1" component="div" gutterBottom>
             JSON Export Visualizer
           </Typography>
