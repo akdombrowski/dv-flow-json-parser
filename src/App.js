@@ -13,7 +13,6 @@ import hljs from "highlight.js/lib/core";
 import json from "highlight.js/lib/languages/json";
 
 import * as _ from "lodash";
-import { RestaurantMenuSharp } from "@mui/icons-material";
 
 hljs.registerLanguage("JSON", json);
 
@@ -104,7 +103,6 @@ function App() {
         nodeTypeCount[nodeType] = ++nodeTypeCount[nodeType];
       }
       if (nodeType === "CONNECTION") {
-
       }
       setNodeTypes(nodeTypeCount);
 
@@ -118,7 +116,7 @@ function App() {
       setNodeStatusCount(nodeStatusCount);
 
       // Count number of capabilities
-      const cap = node.data.capability;
+      const cap = node.data.capabilityName;
       if (!nodeCapability[cap]) {
         nodeCapability[cap] = 1;
       } else {
@@ -151,7 +149,7 @@ function App() {
           >
             <TextField
               id={"outlined-textfield-node-statuses-" + +_.lowerCase(key)}
-              label={"Node-Status-" + _.capitalize(key)}
+              label={"Status-" + _.capitalize(key)}
               variant="outlined"
               value={value}
               fullWidth
@@ -182,7 +180,7 @@ function App() {
           >
             <TextField
               id={"outlined-textfield-node-types-" + _.lowerCase(key)}
-              label={"Node-Types-" + _.capitalize(key)}
+              label={"Types-" + _.capitalize(key)}
               variant="outlined"
               value={value}
               fullWidth
@@ -202,7 +200,7 @@ function App() {
   };
 
   const nodeCapabilitiesElement = () => {
-    if (nodeTypes && Object.entries(nodeCapabilities).length > 0) {
+    if (nodeCapabilities && Object.entries(nodeCapabilities).length > 0) {
       const caps = [];
 
       for (const [key, value] of Object.entries(nodeCapabilities)) {
@@ -214,7 +212,7 @@ function App() {
           >
             <TextField
               id={"outlined-textfield-node-capabilities-" + _.lowerCase(key)}
-              label={"Node-Types-" + _.capitalize(key)}
+              label={"Capability-" + _.capitalize(key)}
               variant="outlined"
               value={value}
               fullWidth
@@ -274,7 +272,7 @@ function App() {
           </Grid>
 
           <Grid container item xs={12} spacing={3}>
-            <Grid item xs={3}>
+            <Grid item xs="6" s="4" m="3">
               <TextField
                 id="outlined-textfield-flowid"
                 label="Flow-ID"
@@ -283,7 +281,7 @@ function App() {
                 fullWidth
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs="6" s="4" m="3">
               <TextField
                 id="outlined-textfield-customerid"
                 label="Customer-ID"
@@ -292,7 +290,7 @@ function App() {
                 fullWidth
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs="6" s="4" m="3">
               <TextField
                 id="outlined-textfield-currentVersion"
                 label="Current-Version"
@@ -301,7 +299,7 @@ function App() {
                 fullWidth
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs="6" s="4" m="3">
               <TextField
                 id="outlined-textfield-publishedVersion"
                 label="Published-Version"
@@ -310,7 +308,7 @@ function App() {
                 fullWidth
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs="6" s="4" m="3">
               <TextField
                 id="outlined-textfield-publishedVersion"
                 label="Input-Schema"
@@ -339,18 +337,23 @@ function App() {
         spacing={2}
         justifyContent="center"
         alignItems="flex-start"
+        pb="10vh"
       >
         <Grid container item xs={12} justifyContent="center">
           <Avatar alt="PingOne DaVinci" src={logo2} />
         </Grid>
         <Grid container item xs={12} justifyContent="center">
-          <Typography variant="h6" component="div" gutterBottom>
-            PingOne DaVinci Flows
-          </Typography>
-          <br/>
-          <Typography variant="subtitle1" component="div" gutterBottom>
-            JSON Export Visualizer
-          </Typography>
+          <Grid container item xs={12} justifyContent="center">
+            <Typography variant="h6" component="div" gutterBottom>
+              PingOne DaVinci Flowz
+            </Typography>
+          </Grid>
+
+          <Grid container item xs={12} justifyContent="center">
+            <Typography variant="subtitle1" component="div" gutterBottom>
+              JSON Export Visualizer
+            </Typography>
+          </Grid>
         </Grid>
         <Grid container item xs={12} justifyContent="center">
           <TextField
@@ -359,7 +362,7 @@ function App() {
             variant="outlined"
             multiline
             fullWidth
-            maxRows={8}
+            maxRows={6}
             value={input}
             onChange={handleChange}
           />
